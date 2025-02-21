@@ -1,0 +1,149 @@
+wallet: <your wallet name>
+stake_amount: 1.0
+validator: 5F4tQyWrhfGVcNhoqeiNsR6KjD4wMZ2kfhLj4oHYuyHbZAc3
+exclude_list: []
+
+# Telegram tokens and update freq
+telegram_token: "<your telegram token>"
+telegram_chat_id: "<your chat id>"
+telegram_update_interval: 100
+
+preferences:
+  # 0: Root
+  "0": 0.0
+  # 1: Apex
+  "1": 1.0
+  # 2: Omron
+  "2": 1.0
+  # 3: Templar
+  "3": 1.0
+  # 4: Targon
+  "4": 1.0
+  # 5: Open Kaito
+  "5": 1.0
+  # 6: Infinite Games
+  "6": 1.0
+  # 7: Subvortex
+  "7": 1.0
+  # 8: Proprietary Trading Network
+  "8": 1.0
+  # 9: Pretraining
+  "9": 1.0
+  # 10: Sturdy
+  "10": 1.0
+  # 11: Dippy Roleplay
+  "11": 1.0
+  # 12: Horde
+  "12": 1.0
+  # 13: Data Universe
+  "13": 1.0
+  # 14: VectorStore
+  "14": 1.0
+  # 15: De-Val
+  "15": 1.0
+  # 16: BitAds
+  "16": 1.0
+  # 17: Three Gen
+  "17": 1.0
+  # 18: Cortex.t
+  "18": 1.0
+  # 19: Nineteen
+  "19": 1.0
+  # 20: BitAgent - Rizzo
+  "20": 1.0
+  # 21: Omega Any-to-any
+  "21": 1.0
+  # 22: Desearch
+  "22": 1.5
+  # 23: SocialTensor
+  "23": 1.0
+  # 24: Omega
+  "24": 1.0
+  # 25: Protein Folding
+  "25": 1.0
+  # 26: Unknown
+  "26": 1.0
+  # 27: NI Compute
+  "27": 1.0
+  # 28: LOL
+  "28": 1.0
+  # 29: Coldint
+  "29": 1.0
+  # 30: Bettensor
+  "30": 1.0
+  # 31: NAS Chain
+  "31": 1.0
+  # 32: It's AI
+  "32": 1.0
+  # 33: ReadyAI
+  "33": 1.0
+  # 34: BitMind
+  "34": 1.0
+  # 35: LogicNet
+  "35": 1.0
+  # 36: Web Agents - Autoppia
+  "36": 1.0
+  # 37: Finetuning
+  "37": 1.0
+  # 38: Distributed Training Subnet
+  "38": 1.0
+  # 39: EdgeMaxxing
+  "39": 1.0
+  # 40: Chunking
+  "40": 1.0
+  # 41: Sportstensor
+  "41": 1.0
+  # 42: Real-Time Data by Masa
+  "42": 1.0
+  # 43: Graphite
+  "43": 1.0
+  # 44: Score
+  "44": 1.0
+  # 45: SWE - Rizzo
+  "45": 1.0
+  # 46: Neural3D
+  "46": 1.0
+  # 47: Condense AI
+  "47": 1.0
+  # 48: Nextplace AI
+  "48": 1.5
+  # 49: Hivetrain AutoML
+  "49": 1.0
+  # 50: Synth
+  "50": 1.0
+  # 51: Compute Subnet
+  "51": 1.0
+  # 52: Dojo
+  "52": 1.5
+  # 53: Efficient Frontier
+  "53": 1.0
+  # 54: WebGenieAI
+  "54": 1.0
+  # 55: Precog
+  "55": 1.0
+  # 56: Gradients
+  "56": 1.0
+  # 57: Gaia
+  "57": 1.0
+  # 58: Dippy Speech
+  "58": 1.0
+  # 59: Agent Arena by Masa
+  "59": 1.0
+  # 60: Bitsec
+  "60": 1.0
+  # 61: Red Team
+  "61": 1.0
+  # 62: AgenTao
+  "62": 1.0
+  # 63: Unknown
+  "63": 1.0
+  # 64: Chutes
+  "64": 1.0
+  # 65: Unknown
+  "65": 1.0
+  # 66: FakeNews
+  "66": 1.0
+  # 67: Unknown
+  "67": 1.0
+  # 68: Unknown
+  "68": 1.0
