@@ -90,6 +90,14 @@ Interactive DCA script which uses a telegram frontend to pass commands.
 
 Interact with the bot using Telegram. Below are the supported commands:
 
+- **/pause**  
+  _Description:_ Stops the bot staking into subnets.
+  _Response:_ Confirms the bot has been paused.
+
+- **/start**  
+  _Description:_ Starts the bot staking into subnets
+  _Response:_ Confirms the bot has been started.
+
 - **/info `<netuid>`**  
   _Description:_ Returns information about the specified subnet, including:
   - Current price.
@@ -116,10 +124,6 @@ Interact with the bot using Telegram. Below are the supported commands:
 - **/pump `<netuid>` `<amount>`**  
   _Description:_ Buys (stakes) the specified amount of TAO into the given subnet.  
   _Response:_ Confirmation of the stake action.
-
-- **/alpha `<value>`**  
-  _Description:_ Sets the EMA base alpha (smoothing factor) used in the algorithm to the specified value.  
-  _Response:_ New alpha value.
 
 - **/amount `<value>`**  
   _Description:_ Sets the base stake amount used per block to the specified value.  
