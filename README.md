@@ -117,11 +117,11 @@ Interact with the bot using Telegram. Below are the supported commands:
   _Description:_ Adds the specified subnet to the exclude list (i.e., the bot will not stake in this subnet).  
   _Response:_ Confirmation message.
 
-- **/rug `<netuid>` `<amount>`**  
+- **/sell `<netuid>` `<amount>`**  
   _Description:_ Sells (unstakes) the specified amount of TAO from the given subnet.  
   _Response:_ Confirmation of the unstake action.
 
-- **/pump `<netuid>` `<amount>`**  
+- **/buy `<netuid>` `<amount>`**  
   _Description:_ Buys (stakes) the specified amount of TAO into the given subnet.  
   _Response:_ Confirmation of the stake action.
 
