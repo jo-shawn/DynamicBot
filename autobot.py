@@ -56,7 +56,6 @@ async def get_working_subtensor():
         except Exception as e:
             last_error = e
             continue
-    
     raise Exception(f"Failed to connect to any endpoints. Last error: {last_error}")
 
 # --- Configuration Loader ---
@@ -67,6 +66,9 @@ def load_config(config_file="config.yaml"):
         config = yaml.safe_load(f)
     # Convert preferences keys to strings (we use string keys in our lookups)
     config["preferences"] = {str(k): v for k, v in config.get("preferences", {}).items()}
+    # Ensure we have a paused flag (default False)
+    if "paused" not in config:
+        config["paused"] = False
     return type('Config', (), config)()
 
 # --- Telegram Notification & Command Handling ---
@@ -74,6 +76,7 @@ def load_config(config_file="config.yaml"):
 def send_telegram_message(message, config, chat_id=None):
     """Send a Telegram message using the bot API with Markdown formatting."""
     telegram_token = config.telegram_token
+    # Use provided chat_id (for command replies) or fallback to config's chat id.
     chat_id = chat_id or config.telegram_chat_id
     if not telegram_token or not chat_id:
         return  # Nothing to do if not configured
@@ -108,7 +111,7 @@ async def poll_telegram_updates(wallet, config):
     Supported commands:
       /info <netuid>, /boost <netuid>, /slash <netuid>,
       /exclude <netuid>, /sell <netuid> <amount>, /buy <netuid> <amount>,
-      /alpha <value>, /amount <value>, /balance, /history
+      /amount <value>, /balance, /history, /pause, /start
     """
     telegram_token = config.telegram_token
     if not telegram_token:
@@ -142,10 +145,12 @@ async def handle_telegram_command(message, wallet, config):
       /slash <netuid>      -- decreases the preference for that subnet by 0.1 (min 0.1).
       /exclude <netuid>    -- adds the subnet to the exclude list.
       /sell <netuid> <amount>   -- sells (unstakes) the specified amount from that subnet.
-      /buy <netuid> <amount>  -- buys (stakes) the specified amount into that subnet.
+      /buy <netuid> <amount>    -- buys (stakes) the specified amount into that subnet.
       /amount <value>      -- sets the stake amount to the given value.
       /balance             -- returns a summary of your current portfolio.
-      /history            -- returns a history summary since the last /history call.
+      /history             -- returns a history summary since the last /history call.
+      /pause               -- pauses the bot (no new stake allocations).
+      /start               -- resumes staking.
     """
     bt.logging.trace(msg=f"{message}")
     text = message.get("text", "")
@@ -156,6 +161,16 @@ async def handle_telegram_command(message, wallet, config):
         return
 
     cmd = parts[0].lower()
+
+    if cmd == "/pause":
+        config.paused = True
+        send_telegram_message("Bot is now paused. No new staking actions will be performed.", config, chat_id)
+        return
+
+    if cmd == "/start":
+        config.paused = False
+        send_telegram_message("Bot has resumed staking.", config, chat_id)
+        return
 
     if cmd == "/balance":
         # Create a temporary subtensor connection and retrieve portfolio info.
@@ -287,7 +302,6 @@ async def handle_telegram_command(message, wallet, config):
             return
 
     if cmd == "/info":
-        # Query subnet info and include current preference.
         try:
             sub = await get_working_subtensor()
         except Exception as e:
@@ -455,7 +469,6 @@ def select_best_subnet(subnets, exclude_list, preferences):
             continue
         if price <= 0:
             continue
-        # Using a different scoring metric in this version.
         score = float(s.tao_in_emission) / float(price)
         pref_multiplier = preferences.get(str(netuid), 1.0)
         effective_score = score * pref_multiplier
@@ -510,7 +523,7 @@ def build_display_table(subnets, current_block, stake_info, exclude_list, prefer
         if price <= 0:
             continue
         total_price += price
-        score = s.tao_in_emission/price
+        score = float(s.tao_in_emission) / price
         pref_multiplier = preferences.get(str(netuid), 1.0)
         stake_amt = 0.0
         if netuid in stake_info:
@@ -555,14 +568,14 @@ async def process_block(sub, wallet, config, purchase_history):
     current_block = await get_current_block(sub)
     subnets = await get_all_subnets(sub)
 
-
     # Select the best subnet using a preference-adjusted score
     stake_info = await get_stake_info(sub, wallet, validator)
     chosen_subnet, best_score = select_best_subnet(subnets, exclude_list, preferences)
     
     stake_action = ""
     chosen_netuid = None
-    if chosen_subnet and best_score > 0:
+    # Only stake if not paused.
+    if not config.paused and chosen_subnet and best_score > 0:
         chosen_netuid = chosen_subnet.netuid
         pref_multiplier = preferences.get(str(chosen_netuid), 1.0)
         actual_stake = stake_amount * pref_multiplier
@@ -582,7 +595,9 @@ async def process_block(sub, wallet, config, purchase_history):
             accumulated_history.append(purchase_event)
         except Exception as e:
             stake_action = f"Stake error: {e}"
-    
+    elif config.paused:
+        stake_action = "Paused"
+
     # Refresh stake info and wallet balance
     stake_info = await get_stake_info(sub, wallet, validator)
     wallet_balance = await get_wallet_balance(sub, wallet)
