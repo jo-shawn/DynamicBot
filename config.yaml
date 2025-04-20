@@ -4,7 +4,7 @@ validator: 5F4tQyWrhfGVcNhoqeiNsR6KjD4wMZ2kfhLj4oHYuyHbZAc3
 exclude_list: []
 
 # Telegram tokens and update freq
-telegram_token: "<your telegram token>"
+telegram_token: "7815899009:AAFi8myVsfx6bU42IuysYZqe78kX-g_ifVo"
 telegram_chat_id: "<your chat id>"
 telegram_update_interval: 100
 
